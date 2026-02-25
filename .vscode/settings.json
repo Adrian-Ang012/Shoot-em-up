@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Shoot-em-up.slnx"
+    "dotnet.defaultSolution": "Shoot em up.slnx"
 }

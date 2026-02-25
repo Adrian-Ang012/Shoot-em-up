@@ -1,39 +1,53 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float autoUpSpeed = 2f;
     public Camera mainCamera;
 
-    void Start()
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
+
+    void Awake()
     {
-        // Auto-assign if not set in Inspector
+        rb = GetComponent<Rigidbody2D>();
+
         if (mainCamera == null)
             mainCamera = Camera.main;
     }
 
     void Update()
     {
-        // Continuous upward movement
-        transform.Translate(Vector2.up * autoUpSpeed * Time.deltaTime);
-
-        // Manual WASD input (supports diagonals)
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        Vector2 manualMove = new Vector2(moveX, moveY).normalized;
-        transform.Translate(manualMove * moveSpeed * Time.deltaTime);
+        moveInput = new Vector2(moveX, moveY);
+        if (moveInput.magnitude > 1f) moveInput = moveInput.normalized;
+    }
 
-        // Clamp player inside camera view
+    void FixedUpdate()
+    {
+        Vector2 autoMove = Vector2.up * autoUpSpeed;
+        Vector2 manualMove = moveInput * moveSpeed;
+
+        rb.linearVelocity = autoMove + manualMove;
+
+        ClampToCamera();
+    }
+
+    void ClampToCamera()
+    {
         Vector3 pos = transform.position;
         Vector3 viewPos = mainCamera.WorldToViewportPoint(pos);
 
-
-        // Clamp between 0 and 1 viewport space (slightly inset so player isn’t half off-screen)
         viewPos.x = Mathf.Clamp(viewPos.x, 0f, 1f);
         viewPos.y = Mathf.Clamp(viewPos.y, 0f, 1f);
 
-        transform.position = mainCamera.ViewportToWorldPoint(viewPos);
+        Vector3 clampedWorld = mainCamera.ViewportToWorldPoint(viewPos);
+        clampedWorld.z = transform.position.z;
+
+        rb.position = clampedWorld;
     }
 }

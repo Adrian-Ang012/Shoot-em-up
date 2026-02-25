@@ -1,28 +1,41 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 200;
     public int currentHealth;
-    public UnityEngine.UI.Slider healthSlider;
+    public TMP_Text hpText;
 
     void Start()
     {
         currentHealth = maxHealth;
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = currentHealth;
+        UpdateUI();
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthSlider.value = currentHealth;
-        if (currentHealth <= 0) GameOver();
+
+        if (currentHealth < 0)
+            currentHealth = 0;
+
+        UpdateUI();
+
+        if (currentHealth <= 0)
+            GameOver();
+    }
+
+    void UpdateUI()
+    {
+        if (hpText != null)
+            hpText.text = currentHealth.ToString();
     }
 
     void GameOver()
     {
-        Debug.Log("Game Over! Show score here.");
+        Debug.Log("Game Over");
     }
+
+
 }
