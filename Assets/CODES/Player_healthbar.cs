@@ -7,6 +7,9 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth;
     public TMP_Text hpText;
 
+    public GameObject deathExplosionFX; 
+    public float explosionScale = 2f;     
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -34,8 +37,13 @@ public class PlayerHealth : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over");
+        if (deathExplosionFX != null)
+        {
+            GameObject fx = Instantiate(deathExplosionFX, transform.position, Quaternion.identity);
+            fx.transform.localScale = Vector3.one * explosionScale;
+        }
+
+        
+        Destroy(gameObject);   
     }
-
-
 }

@@ -2,29 +2,57 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
-    public int scoreValue = 10;
+    public int maxHP = 50;
+    public int currentHP;
+    public int enemyScore = 100;
 
-    private int currentHealth;
+    [Header("Explosion Animation")]
+    public GameObject TankExplodePrefab; 
 
-    void Start()
+    private void OnEnable()
     {
-        currentHealth = maxHealth;
+        currentHP = maxHP;
     }
 
     public void TakeDamage(int dmg)
     {
-        currentHealth -= dmg;
-
-        if (currentHealth <= 0)
+        currentHP -= dmg;
+        if (currentHP <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        ScoreManager.Instance.AddScore(scoreValue);
+        // Check if the thing we hit is the PLAYER
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Collision with Player detected!");
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Die() function called on " + gameObject.name);
+
+        if (TankExplodePrefab != null)
+        {
+            Vector3 spawnPos = transform.position;
+            spawnPos.z -= 1f; 
+
+            Instantiate(TankExplodePrefab, spawnPos, Quaternion.identity);
+            Debug.Log("Explosion Instantiated!");
+        }
+        else
+        {
+            Debug.LogError("NO PREFAB ASSIGNED in the TankExplodePrefab slot!");
+        }
+
+        ScoreManager sm = Object.FindFirstObjectByType<ScoreManager>();
+        if (sm != null) sm.AddScore(enemyScore);
+
         Destroy(gameObject);
     }
 }

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 35cdb8e948973e447a995cf3bb479f88
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - endGamePanel: {instanceID: 0}
+  - victoryImage: {instanceID: 0}
+  - loseImage: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

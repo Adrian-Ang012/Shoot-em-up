@@ -32,4 +32,5 @@ public class EnemySpawner : MonoBehaviour
 
         Instantiate(prefab, pos, Quaternion.identity);
     }
+
 }

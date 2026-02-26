@@ -21,7 +21,6 @@ public class EnemyShoot : MonoBehaviour
     void Shoot()
     {
         if (enemyBulletPrefab == null || firePoint == null) return;
-
-        Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
+        Instantiate(enemyBulletPrefab, firePoint.position, firePoint.rotation);
     }
 }

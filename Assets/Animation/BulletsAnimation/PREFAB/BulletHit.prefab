@@ -4904,7 +4904,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7354695869903840038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7804a1a215849848b7bc14f89b9f579, type: 3}
+  m_Script: {fileID: 11500000, guid: 04c89067105e5b04c969d04cf0499be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FXTestSpawner
-  bulletHitFX: {fileID: 0}
+  selfdestruct_in: 4

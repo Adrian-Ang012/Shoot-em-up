@@ -7,14 +7,14 @@ public class BulletCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Wall
+    
         if (other.CompareTag("Wall"))
         {
             HitAndDie();
             return;
         }
 
-        // Bullet vs bullet
+        
         if ((CompareTag("PlayerBullet") && other.CompareTag("BulletEnemy")) ||
             (CompareTag("BulletEnemy") && other.CompareTag("PlayerBullet")))
         {
@@ -23,20 +23,19 @@ public class BulletCollision : MonoBehaviour
             return;
         }
 
-        // Player bullet hits enemy OR boss
+    
         if (CompareTag("PlayerBullet"))
         {
-            // normal enemies
+           
             EnemyHealth eh = other.GetComponentInParent<EnemyHealth>();
+            BossHealth bh = other.GetComponentInParent<BossHealth>();
+
             if (eh != null)
             {
                 eh.TakeDamage(damage);
                 HitAndDie();
                 return;
             }
-
-            // boss
-            BossHealth bh = other.GetComponentInParent<BossHealth>();
             if (bh != null)
             {
                 bh.TakeDamage(damage);
@@ -45,13 +44,14 @@ public class BulletCollision : MonoBehaviour
             }
         }
 
-        // Enemy bullet hits player
+        
         if (CompareTag("BulletEnemy") && other.CompareTag("Player"))
         {
             PlayerHealth ph = other.GetComponentInParent<PlayerHealth>();
             if (ph != null)
+            {
                 ph.TakeDamage(damage);
-
+            }
             HitAndDie();
             return;
         }
@@ -60,7 +60,10 @@ public class BulletCollision : MonoBehaviour
     void HitAndDie()
     {
         if (bulletHitFX != null)
+        {
+        
             Instantiate(bulletHitFX, transform.position, Quaternion.identity);
+        }
 
         Destroy(gameObject);
     }

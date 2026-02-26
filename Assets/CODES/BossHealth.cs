@@ -4,8 +4,10 @@ public class BossHealth : MonoBehaviour
 {
     public int maxHP = 500;
     public int currentHP;
-
     public int bossScore = 1000;
+
+    [Header("Explosion Settings")]
+    public GameObject bossExplosionPrefab; 
 
     private void OnEnable()
     {
@@ -20,15 +22,21 @@ public class BossHealth : MonoBehaviour
         {
             currentHP = 0;
 
-            // Add score using new Unity API
+            if (bossExplosionPrefab != null)
+            {
+                Instantiate(bossExplosionPrefab, transform.position, Quaternion.identity);
+            }
+
+            
             ScoreManager sm = Object.FindFirstObjectByType<ScoreManager>();
             if (sm != null)
             {
                 sm.AddScore(bossScore);
             }
 
-            // Destroy the whole boss
             Destroy(transform.root.gameObject);
+
+            
         }
     }
 }
