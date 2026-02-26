@@ -15273,7 +15273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7671669700555578921, guid: 742cecb340b1cb14b8603dafd27b0879, type: 3}
       propertyPath: tripleSpacing
-      value: 1.5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 7671669700555578921, guid: 742cecb340b1cb14b8603dafd27b0879, type: 3}
       propertyPath: tripleSpreadAngle
