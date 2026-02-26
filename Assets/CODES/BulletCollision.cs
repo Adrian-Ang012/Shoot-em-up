@@ -7,35 +7,61 @@ public class BulletCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Wall
         if (other.CompareTag("Wall"))
         {
-            Instantiate(bulletHitFX, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            HitAndDie();
+            return;
         }
-        if (other.CompareTag("EnemyBullet") || other.CompareTag("PlayerBullet"))
+
+        // Bullet vs bullet
+        if ((CompareTag("PlayerBullet") && other.CompareTag("BulletEnemy")) ||
+            (CompareTag("BulletEnemy") && other.CompareTag("PlayerBullet")))
         {
-            Instantiate(bulletHitFX, transform.position, Quaternion.identity);
             Destroy(other.gameObject);
-            Destroy(gameObject);
+            HitAndDie();
+            return;
         }
 
-     
-        if (other.CompareTag("Enemy"))
+        // Player bullet hits enemy OR boss
+        if (CompareTag("PlayerBullet"))
         {
+            // normal enemies
+            EnemyHealth eh = other.GetComponentInParent<EnemyHealth>();
+            if (eh != null)
+            {
+                eh.TakeDamage(damage);
+                HitAndDie();
+                return;
+            }
+
+            // boss
+            BossHealth bh = other.GetComponentInParent<BossHealth>();
+            if (bh != null)
+            {
+                bh.TakeDamage(damage);
+                HitAndDie();
+                return;
+            }
+        }
+
+        // Enemy bullet hits player
+        if (CompareTag("BulletEnemy") && other.CompareTag("Player"))
+        {
+            PlayerHealth ph = other.GetComponentInParent<PlayerHealth>();
+            if (ph != null)
+                ph.TakeDamage(damage);
+
+            HitAndDie();
+            return;
+        }
+    }
+
+    void HitAndDie()
+    {
+        if (bulletHitFX != null)
             Instantiate(bulletHitFX, transform.position, Quaternion.identity);
 
-            
-            Destroy(gameObject);
-        }
-
-      
-        if (other.CompareTag("Player"))
-        {
-            Instantiate(bulletHitFX, transform.position, Quaternion.identity);
-
-            
-
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
