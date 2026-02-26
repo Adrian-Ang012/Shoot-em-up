@@ -16,11 +16,22 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
+        // Don't take damage if not on screen
+        if (!IsOnScreen())
+            return;
+
         currentHP -= dmg;
+
         if (currentHP <= 0)
-        {
             Die();
-        }
+    }
+
+    bool IsOnScreen()
+    {
+        if (Camera.main == null) return false;
+
+        Vector3 vp = Camera.main.WorldToViewportPoint(transform.position);
+        return vp.z > 0 && vp.x >= 0 && vp.x <= 1 && vp.y >= 0 && vp.y <= 1;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

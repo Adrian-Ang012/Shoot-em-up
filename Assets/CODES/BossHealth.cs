@@ -3,40 +3,39 @@ using UnityEngine;
 public class BossHealth : MonoBehaviour
 {
     public int maxHP = 500;
-    public int currentHP;
+    public int currentHP = 500;
+
     public int bossScore = 1000;
+    public GameObject bossExplosionPrefab;
 
-    [Header("Explosion Settings")]
-    public GameObject bossExplosionPrefab; 
+    bool invulnerable = true;
 
-    private void OnEnable()
+    void OnEnable()
     {
         currentHP = maxHP;
     }
 
+    public void SetInvulnerable(bool value)
+    {
+        invulnerable = value;
+    }
+
     public void TakeDamage(int dmg)
     {
-        currentHP -= dmg;
+        if (invulnerable) return;
 
+        currentHP -= dmg;
         if (currentHP <= 0)
         {
             currentHP = 0;
 
             if (bossExplosionPrefab != null)
-            {
                 Instantiate(bossExplosionPrefab, transform.position, Quaternion.identity);
-            }
 
-            
-            ScoreManager sm = Object.FindFirstObjectByType<ScoreManager>();
-            if (sm != null)
-            {
-                sm.AddScore(bossScore);
-            }
+            var sm = Object.FindFirstObjectByType<ScoreManager>();
+            if (sm != null) sm.AddScore(bossScore);
 
-            Destroy(transform.root.gameObject);
-
-            
+            Destroy(gameObject);
         }
     }
 }

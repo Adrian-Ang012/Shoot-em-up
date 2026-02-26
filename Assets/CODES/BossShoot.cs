@@ -23,7 +23,10 @@ public class BossShoot : MonoBehaviour
     public bool fiveShot = true;
 
     [Header("Five Shot Spread")]
-    public float spreadAngle = 40f;   
+    public float spreadAngle = 40f;
+
+    [Header("Triple Shot Spacing")]
+    public float tripleSpacing = 0.6f;
 
     private float timer;
 
@@ -57,22 +60,15 @@ public class BossShoot : MonoBehaviour
 
         SpawnOne(firePoints[0].position, shootDir);
     }
-
     void ShootThree()
     {
-        if (firePoints.Length >= 3)
-        {
-            SpawnOne(firePoints[0].position, Vector2.down);
-            SpawnOne(firePoints[1].position, Vector2.down);
-            SpawnOne(firePoints[2].position, Vector2.down);
-        }
-        else
-        {
-            Vector3 p = firePoints[0].position;
-            SpawnOne(p + new Vector3(-0.25f, 0f, 0f), Vector2.down);
-            SpawnOne(p, Vector2.down);
-            SpawnOne(p + new Vector3(0.25f, 0f, 0f), Vector2.down);
-        }
+        Vector3 p = firePoints[0].position;
+
+        float s = tripleSpacing;
+
+        SpawnOne(p + new Vector3(-s, 0f, 0f), Vector2.down); // left
+        SpawnOne(p, Vector2.down);                           // center
+        SpawnOne(p + new Vector3(s, 0f, 0f), Vector2.down);  // right
     }
 
     void ShootFive()

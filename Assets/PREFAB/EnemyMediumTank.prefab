@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyContactDamage
   damageToPlayer: 20
-  damageToEnemy: 20
+  damageToEnemy: 200
   cooldown: 0.5
 --- !u!1 &6228814681244002190
 GameObject:
